@@ -16,16 +16,14 @@ for file in Dockerfiles/*; do
         docker buildx build \
             --platform linux/amd64,linux/arm64 \
             -t ${IMAGE_FULLNAME}:${TAG} \
-            --push
-            -f "${file}"
-            .
+            -f "${file}" \
+            --push .
     else
         docker buildx build \
             --platform linux/amd64,linux/arm64 \
             -t ${IMAGE_FULLNAME}-test:${BRANCH_NAME}-${TAG} \
-            --push
-            -f "${file}"
-            .
+            -f "${file}" \
+            --push .
     fi
 done
 
