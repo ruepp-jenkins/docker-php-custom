@@ -4,7 +4,7 @@ echo "Starting build workflow"
 
 scripts/docker_initialize.sh
 
-for file in ./Dockerfiles/*; do
+for file in Dockerfiles/*; do
     TAG=$(basename "$file")
     
     echo "Building tag ${TAG} from file: ${file}"
