@@ -11,4 +11,5 @@ Adress of the images: https://hub.docker.com/r/ruepp/php-custom
 
 ## additional installations
 
+- gd (--with-jpeg --with-webp --with-freetype)
 - mysqli
