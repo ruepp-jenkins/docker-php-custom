@@ -7,6 +7,8 @@ scripts/docker_initialize.sh
 for file in ./Dockerfiles/*; do
     TAG=$(basename "$file")
     
+    echo "Building tag ${TAG} from file: ${file}"
+
     # run build
     echo "[${BRANCH_NAME}] Building images: ${IMAGE_FULLNAME}"
     if [ "$BRANCH_NAME" = "master" ] || [ "$BRANCH_NAME" = "main" ]
