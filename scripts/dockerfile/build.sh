@@ -9,7 +9,6 @@ find /build -type f -iname "*.sh" -exec chmod +x {} \;
 
 # preparations
 /build/apt-get.sh
-/build/tzdata.sh
 
 # determinate build platform
 . /build/platforms/${TARGETPLATFORM}.sh
