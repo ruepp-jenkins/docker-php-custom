@@ -1,7 +1,10 @@
 #!/bin/bash
 
+# configure
+docker-php-ext-configure gd --with-jpeg --with-webp --with-freetype
+
 # install extensions
-docker-php-ext-install mysqli
+docker-php-ext-install -j$(nproc) gd mysqli
 
 # enable extensions
-docker-php-ext-enable mysqli
+docker-php-ext-enable gd mysqli
