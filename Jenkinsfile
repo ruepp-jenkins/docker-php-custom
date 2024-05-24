@@ -12,7 +12,7 @@ pipeline {
         label 'docker'
     }
     environment {
-        IMAGE_FULLNAME = 'stefanruepp/php-custom'
+        IMAGE_FULLNAME = 'ruepp/php-custom'
     }
     triggers {
         URLTrigger(

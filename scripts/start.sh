@@ -4,7 +4,7 @@ echo "Starting build workflow"
 
 scripts/docker_initialize.sh
 
-for file in Dockerfiles/*; do
+for file in ./Dockerfiles/*; do
     TAG=$(basename "$file")
     
     # run build
@@ -14,12 +14,12 @@ for file in Dockerfiles/*; do
         docker buildx build \
             --platform linux/amd64,linux/arm64 \
             -t ${IMAGE_FULLNAME}:${TAG} \
-            --push "${file}"
+            --push "./${file}"
     else
         docker buildx build \
             --platform linux/amd64,linux/arm64 \
             -t ${IMAGE_FULLNAME}-test:${BRANCH_NAME}-${TAG} \
-            --push "${file}"
+            --push "./${file}"
     fi
 done
 
