@@ -5,6 +5,7 @@ echo "Start build process"
 # avoid some dialogs
 export DEBIAN_FRONTEND=noninteractive
 
+# make all .sh scripts executable
 find /build -type f -iname "*.sh" -exec chmod +x {} \;
 
 # preparations
@@ -14,7 +15,9 @@ find /build -type f -iname "*.sh" -exec chmod +x {} \;
 . /build/platforms/${TARGETPLATFORM}.sh
 
 # installations
-/build/php.sh
+/build/php_extensions_default.sh
+/build/php_extensions_pecl.sh
 
 # cleanup
+/build/php_cleanup.sh
 /build/cleanup.sh
