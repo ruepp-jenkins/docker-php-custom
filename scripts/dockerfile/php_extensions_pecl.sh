@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-echo "Installing extensions using pecl"
+echo "PHP installing extensions using pecl"
 
 ## install
 printf '\n' | pecl install -fa imagick
