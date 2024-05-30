@@ -4,6 +4,7 @@ echo "Installing extensions using php docker tools"
 
 ## configure
 docker-php-ext-configure gd --enable-gd --with-jpeg --with-webp --with-freetype --with-xpm
+docker-php-ext-configure zip --with-zip
 
 ## install
 docker-php-ext-install dom gd intl mbstring mysqli opcache pdo pdo_mysql xsl zip
