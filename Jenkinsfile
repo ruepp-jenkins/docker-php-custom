@@ -27,16 +27,6 @@ pipeline {
                             ]
                         )
                     ]
-                ),
-                URLTriggerEntry(
-                    url: 'https://hub.docker.com/v2/namespaces/library/repositories/php/tags/8.3-apache',
-                    contentTypes: [
-                        JsonContent(
-                            [
-                                JsonContentEntry(jsonPath: '$.last_updated')
-                            ]
-                        )
-                    ]
                 )
             ]
         )
