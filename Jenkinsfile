@@ -19,7 +19,17 @@ pipeline {
             cronTabSpec: 'H/30 * * * *',
             entries: [
                 URLTriggerEntry(
-                    url: 'https://hub.docker.com/v2/namespaces/library/repositories/php/tags/8.2.6-apache',
+                    url: 'https://hub.docker.com/v2/namespaces/library/repositories/php/tags/8.2-apache',
+                    contentTypes: [
+                        JsonContent(
+                            [
+                                JsonContentEntry(jsonPath: '$.last_updated')
+                            ]
+                        )
+                    ]
+                ),
+                URLTriggerEntry(
+                    url: 'https://hub.docker.com/v2/namespaces/library/repositories/php/tags/8.3-apache',
                     contentTypes: [
                         JsonContent(
                             [
