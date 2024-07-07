@@ -51,10 +51,10 @@ pipeline {
     post {
         always {
             discordSend result: currentBuild.currentResult,
-            description: env.GIT_URL,
-            link: env.BUILD_URL,
-            title: JOB_NAME,
-            webhookURL: DISCORD_WEBHOOK
+                description: env.GIT_URL,
+                link: env.BUILD_URL,
+                title: JOB_NAME,
+                webhookURL: DISCORD_WEBHOOK
         }
     }
 }
