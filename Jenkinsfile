@@ -3,7 +3,8 @@ properties(
         githubProjectProperty(
             displayName: 'docker-php-custom',
             projectUrlStr: 'https://github.com/MyUncleSam/docker-php-custom/'
-        )
+        ),
+        disableConcurrentBuilds()
     ]
 )
 
