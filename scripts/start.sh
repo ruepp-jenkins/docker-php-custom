@@ -17,14 +17,14 @@ for file in Dockerfiles/*; do
             --platform linux/amd64,linux/arm64 \
             -t ${IMAGE_FULLNAME}:${TAG} \
             -f "${file}" \
-            --pull
+            --pull \
             --push .
     else
         docker buildx build \
             --platform linux/amd64,linux/arm64 \
             -t ${IMAGE_FULLNAME}-test:${BRANCH_NAME}-${TAG} \
             -f "${file}" \
-            --pull
+            --pull \
             --push .
     fi
 done
