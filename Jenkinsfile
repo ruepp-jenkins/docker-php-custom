@@ -15,6 +15,7 @@ pipeline {
 
     environment {
         IMAGE_FULLNAME = 'ruepp/php-custom'
+        DOCKER_API_PASSWORD = credentials('DOCKER_API_PASSWORD')
     }
 
     triggers {
