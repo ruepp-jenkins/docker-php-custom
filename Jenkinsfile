@@ -3,7 +3,8 @@ properties(
         githubProjectProperty(
             displayName: 'docker-php-custom',
             projectUrlStr: 'https://github.com/MyUncleSam/docker-php-custom/'
-        )
+        ),
+        disableConcurrentBuilds(abortPrevious: true)
     ]
 )
 
@@ -15,10 +16,6 @@ pipeline {
     environment {
         IMAGE_FULLNAME = 'ruepp/php-custom'
         DOCKER_API_PASSWORD = credentials('DOCKER_API_PASSWORD')
-    }
-
-    options {
-        disableConcurrentBuilds(abortPrevious: true)
     }
 
     triggers {
