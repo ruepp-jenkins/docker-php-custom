@@ -4,7 +4,7 @@ ARG TARGETPLATFORM
 ARG BUILDPLATFORM
 
 LABEL maintainer="Stefan Ruepp <stefan@ruepp.info>"
-LABEL github="https://github.com/MyUncleSam/docker-php-custom/"
+LABEL github="https://github.com/ruepp-jenkins/docker-php-custom/"
 LABEL TARGETPLATFORM=${TARGETPLATFORM}
 LABEL BUILDPLATFORM=${BUILDPLATFORM}
 
