@@ -17,6 +17,7 @@ find /build -type f -iname "*.sh" -exec chmod +x {} \;
 # installations
 /build/php_extensions_default.sh
 /build/php_extensions_pecl.sh
+/build/apache_mods.sh
 
 # cleanup
 /build/php_cleanup.sh
