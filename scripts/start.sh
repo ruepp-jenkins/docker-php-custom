@@ -29,7 +29,5 @@ for file in Dockerfiles/*; do
     fi
 done
 
-
-
 # cleanup
 scripts/docker_cleanup.sh
