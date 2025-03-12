@@ -1,3 +1,12 @@
+properties(
+    [
+        githubProjectProperty(
+            displayName: 'docker-php-custom',
+            projectUrlStr: 'https://github.com/MyUncleSam/docker-php-custom/'
+        )
+    ]
+)
+
 pipeline {
     agent {
         label 'docker'
@@ -9,10 +18,6 @@ pipeline {
     }
 
     options {
-        githubProjectProperty(
-            displayName: 'docker-php-custom',
-            projectUrlStr: 'https://github.com/MyUncleSam/docker-php-custom/'
-        ),
         disableConcurrentBuilds(abortPrevious: true)
     }
 
