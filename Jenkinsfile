@@ -1,13 +1,3 @@
-properties(
-    [
-        githubProjectProperty(
-            displayName: 'docker-php-custom',
-            projectUrlStr: 'https://github.com/MyUncleSam/docker-php-custom/'
-        ),
-        disableConcurrentBuilds()
-    ]
-)
-
 pipeline {
     agent {
         label 'docker'
@@ -16,6 +6,14 @@ pipeline {
     environment {
         IMAGE_FULLNAME = 'ruepp/php-custom'
         DOCKER_API_PASSWORD = credentials('DOCKER_API_PASSWORD')
+    }
+
+    options {
+        githubProjectProperty(
+            displayName: 'docker-php-custom',
+            projectUrlStr: 'https://github.com/MyUncleSam/docker-php-custom/'
+        ),
+        disableConcurrentBuilds(abortPrevious: true)
     }
 
     triggers {
