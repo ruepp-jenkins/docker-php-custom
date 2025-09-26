@@ -16,6 +16,7 @@ pipeline {
     environment {
         IMAGE_FULLNAME = 'ruepp/php-custom'
         DOCKER_API_PASSWORD = credentials('DOCKER_API_PASSWORD')
+        TRIVY_TOKEN = credentials('TRIVY_TOKEN')
         DEPENDENCYTRACK_HOST = 'http://172.20.89.2:8080'
         DEPENDENCYTRACK_API_TOKEN = credentials('dependencychecker')
     }
