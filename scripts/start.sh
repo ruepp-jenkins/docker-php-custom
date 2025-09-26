@@ -6,6 +6,7 @@ scripts/docker_initialize.sh
 
 for file in Dockerfiles/*; do
     TAG=$(basename "$file")
+    DATESTAMP=$(date +%Y%m%d)
     
     echo "Building tag ${TAG} from file: ${file}"
 
@@ -16,6 +17,7 @@ for file in Dockerfiles/*; do
         docker buildx build \
             --platform linux/amd64,linux/arm64 \
             -t ${IMAGE_FULLNAME}:${TAG} \
+            -t ${IMAGE_FULLNAME}:${TAG}-${DATESTAMP} \
             -f "${file}" \
             --pull \
             --push .
