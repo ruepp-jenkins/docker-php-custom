@@ -7,7 +7,6 @@ apt-get install -y \
     libfreetype6-dev \
     libjpeg62-turbo-dev \
     libonig-dev \
-    libmagickcore-6.q16-6-extra \
     libmagickwand-dev \
     libpng-dev \
     libwebp-dev \
