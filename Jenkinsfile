@@ -85,7 +85,7 @@ pipeline {
                     projectProperties: [
                         isLatest: true,
                         parentName: env.JOB_NAME,
-                        tags: ['image']
+                        tags: ['image', 'php']
                     ]
                 )
             }
