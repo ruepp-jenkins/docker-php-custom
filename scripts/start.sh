@@ -8,6 +8,10 @@ scripts/docker_initialize.sh
 BUILD_PLATFORMS=${BUILD_PLATFORMS:-linux/amd64}
 echo "Target platforms: ${BUILD_PLATFORMS}"
 
+# platform the image is tested on before pushing (only this one is tested, even if more are built)
+TEST_PLATFORM=linux/amd64
+FAILED_TAGS=""
+
 # reads a label from the already pushed image (first platform) - empty if the image does not exist
 get_pushed_label() {
     docker buildx imagetools inspect "$1" \
@@ -42,32 +46,55 @@ for file in Dockerfiles/*; do
         fi
     fi
     
-    echo "Building tag ${TAG} from file: ${file}"
-
-    # run build
-    echo "[${BRANCH_NAME}] Building images: ${IMAGE_FULLNAME}"
+    LABELS="--label base.digest=${BASE_DIGEST} --label inputs.hash=${INPUTS_HASH}"
     if [ "$BRANCH_NAME" = "master" ] || [ "$BRANCH_NAME" = "main" ]
     then
-        docker buildx build \
-            --platform ${BUILD_PLATFORMS} \
-            -t ${IMAGE_FULLNAME}:${TAG} \
-            -t ${IMAGE_FULLNAME}:${TAG}-${DATESTAMP} \
-            --label base.digest=${BASE_DIGEST} \
-            --label inputs.hash=${INPUTS_HASH} \
-            -f "${file}" \
-            --pull \
-            --push .
+        PUSH_TAGS="-t ${IMAGE_FULLNAME}:${TAG} -t ${IMAGE_FULLNAME}:${TAG}-${DATESTAMP}"
     else
-        docker buildx build \
-            --platform ${BUILD_PLATFORMS} \
-            -t ${IMAGE_FULLNAME}-test:${BRANCH_NAME}-${TAG} \
-            --label base.digest=${BASE_DIGEST} \
-            --label inputs.hash=${INPUTS_HASH} \
-            -f "${file}" \
-            --pull \
-            --push .
+        PUSH_TAGS="-t ${IMAGE_FULLNAME}-test:${BRANCH_NAME}-${TAG}"
     fi
+
+    # 1. build for the test platform and load the image locally (nothing is pushed yet)
+    echo "[${BRANCH_NAME}] Building tag ${TAG} from file: ${file} (test platform ${TEST_PLATFORM})"
+    TEST_IMAGE="php-custom-buildtest:${TAG}"
+    if ! docker buildx build \
+        --platform ${TEST_PLATFORM} \
+        -t ${TEST_IMAGE} \
+        ${LABELS} \
+        -f "${file}" \
+        --pull \
+        --load .
+    then
+        echo "Build of tag ${TAG} FAILED"
+        FAILED_TAGS="${FAILED_TAGS} ${TAG}"
+        continue
+    fi
+
+    # 2. test the image - it is only pushed if all tests pass
+    if ! scripts/test_image.sh "${TEST_IMAGE}" "${file}"
+    then
+        echo "Tests of tag ${TAG} FAILED - not pushing"
+        FAILED_TAGS="${FAILED_TAGS} ${TAG}"
+        docker rmi "${TEST_IMAGE}" || true
+        continue
+    fi
+    docker rmi "${TEST_IMAGE}" || true
+
+    # 3. build for all target platforms and push (uses the build cache of step 1)
+    echo "[${BRANCH_NAME}] Pushing images: ${PUSH_TAGS} (${BUILD_PLATFORMS})"
+    docker buildx build \
+        --platform ${BUILD_PLATFORMS} \
+        ${PUSH_TAGS} \
+        ${LABELS} \
+        -f "${file}" \
+        --push .
 done
 
 # cleanup
 scripts/docker_cleanup.sh
+
+if [ -n "${FAILED_TAGS}" ]
+then
+    echo "Failed tags (not pushed):${FAILED_TAGS}"
+    exit 1
+fi

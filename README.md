@@ -10,7 +10,4 @@ Adress of the images: https://hub.docker.com/r/ruepp/php-custom
 
 # additional PHP extensions
 
-There are two ways additional extensions are installed and activated. All additional extensions and their configurations can be seen here:
-
-- [docker-php-ext-install](scripts/dockerfile/php_extensions_default.sh)
-- [pecl](scripts/dockerfile/php_extensions_pecl.sh)
+All additional PHP extensions and Apache modules are listed in [extensions.conf](scripts/dockerfile/extensions.conf). Every built image is tested against this list before it is pushed (see [test_image.sh](scripts/test_image.sh)).

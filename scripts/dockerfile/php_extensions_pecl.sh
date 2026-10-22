@@ -2,8 +2,12 @@
 set -e
 echo "PHP installing extensions using pecl"
 
-## install
-printf '\n' | pecl install -fa imagick
+CONF="$(dirname "$0")/extensions.conf"
 
-## enable
-docker-php-ext-enable imagick
+while read -r type name; do
+    ## install
+    printf '\n' | pecl install -fa "${name}"
+
+    ## enable
+    docker-php-ext-enable "${name}"
+done < <(grep -E '^pecl[[:space:]]' "${CONF}")
